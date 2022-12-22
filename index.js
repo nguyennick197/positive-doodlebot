@@ -22,7 +22,11 @@ client.on('messageCreate', async (msg) => {
 	const command = args.shift().toLowerCase();
 
 	if (command === "doodle"){
-		const randomDoodle = await getRandomDoodle();
+		let category;
+		if(args && args[0]){
+			category = args[0]
+		}
+		const randomDoodle = await getRandomDoodle(category);
 		const file = new MessageAttachment(randomDoodle.url);
 		msg.channel.send({ files: [file] })
 	}
@@ -32,11 +36,15 @@ client.on('messageCreate', async (msg) => {
 		const fields = categories.map(catObj => {
 			return {
 				name: catObj.category,
-				value: "Image count: " + catObj.count,
+				value: "Images: " + catObj.count,
 				inline: true
 			}
 		})
 		const embed = new MessageEmbed().addFields(fields);
 		msg.channel.send({ embeds: [embed] })
+	}
+
+	if (command == "faq"){
+
 	}
 });
