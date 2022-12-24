@@ -5,6 +5,9 @@ async function getRandomDoodle(category) {
     let url = `${process.env.API_URL}/doodles/random`;
     if (category) url += `?category=${category}`;
     const response = await fetch(url);
+    if (!response.ok) {
+        return null;
+    }
     const data = await response.json();
     return data;
 }
