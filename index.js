@@ -1,6 +1,11 @@
 require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
 const { Client, Intents, MessageAttachment, MessageEmbed } = require('discord.js');
 const { getRandomDoodle, getCategories } = require('./utils/requests.js');
+
+const app = express();
+app.use(cors());
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
@@ -47,4 +52,10 @@ client.on('messageCreate', async (msg) => {
 	if (command == "faq"){
 
 	}
+});
+
+const port = process.env.PORT || 8000;
+
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}`)
 });
