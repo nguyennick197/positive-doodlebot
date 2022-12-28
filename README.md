@@ -33,5 +33,5 @@ The Positive Doodlebot should now be a member of your server and you can use the
  - `d!doodle`: sends a random positive doodle
  - `d!doodle {category}`: get a positive doodle from this category! ex: `d!doodle cat`
  - `d!categories`: sends a list of categories you can use 
- - `d!faq`: Sends a list of commands and details about the bot
+ - `d!help`: Sends a list of commands and details about the bot
 
