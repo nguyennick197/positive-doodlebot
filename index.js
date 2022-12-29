@@ -77,6 +77,10 @@ client.on('messageCreate', async (msg) => {
 			{
 				name: "Who created this art?",
 				value: "All of this art is drawn by Emm Roy! You can follow them at https://www.patreon.com/emmnotemma."
+			},
+			{
+				name: "Who created this bot?",
+				value: "This bot was created by https://github.com/nguyennick197. You can find the source code at https://github.com/nguyennick197/positive-doodlebot."
 			}
 		];
 		const embed = new MessageEmbed()
