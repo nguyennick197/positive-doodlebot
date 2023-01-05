@@ -1,6 +1,6 @@
 # Positive Doodle Discord Bot
 
-This is a Discord bot that sends drawings from the positivedoodles tumblr, created by Emm Roy. Drawings are not allowed to be used for profit. Documentation on how to use the bot is provided below.
+This is a Discord bot that sends drawings from the positivedoodles tumblr, drawn by Emm Roy. Drawings are not allowed to be used for profit. Documentation on how to use the bot is provided below.
 
 ## Emm Roy's socials
  - [Patreon](https://www.patreon.com/emmnotemma)
