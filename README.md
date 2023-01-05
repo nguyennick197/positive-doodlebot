@@ -38,6 +38,8 @@ The Positive Doodlebot should now be a member of your server and you can use the
 
 ## Screenshots
 
-<img src="readme_images/doodlebot_intro.png" alt="Location Weather" width="400"/>
+<img src="readme_images/doodlebot_intro.png" alt="Doodlebot Welcome Message" width="400"/>
 
-<img src="readme_images/doodlebot_examples.png" alt="Location Weather" width="400"/>
+<img src="readme_images/doodlebot_examples.png" alt="Doodlebot doodle and search commands" width="400"/>
+
+<img src="readme_images/doodlebot_tags.png" alt="Doodlebot tag command" width="400"/>
