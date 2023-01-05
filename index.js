@@ -42,7 +42,7 @@ client.on('messageCreate', async (msg) => {
 			if (args && args[0]) {
 				tag = args[0]
 			}
-			const randomDoodle = await getRandomDoodle(tag);
+			const randomDoodle = await getRandomDoodle({ tag });
 			if (!randomDoodle) {
 				let errorMessage = "Sorry, there are no images for that tag. Use d!tags to view some popular tags."
 				msg.channel.send({ content: errorMessage })
@@ -82,7 +82,7 @@ client.on('messageCreate', async (msg) => {
 				msg.channel.send({ content: errorMessage })
 				return;
 			}
-			const randomDoodle = await getRandomDoodle(searchString);
+			const randomDoodle = await getRandomDoodle({ searchString });
 			if (!randomDoodle) {
 				let errorMessage = "Sorry, there are no images available that match your search."
 				msg.channel.send({ content: errorMessage })
