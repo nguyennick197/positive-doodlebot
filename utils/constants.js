@@ -9,7 +9,11 @@ const helpFields = [
     },
     {
         name: "d!categories",
-        value: "Sends a list of valid categories with the number of images for each category!"
+        value: "Here's a list of popular categories!"
+    },
+    {
+        name: "d!search [search string] ie: d!search school studies",
+        value: "Sends a positive doodle with text or tags that matches any word in your search string! (You can use 1 or more words)"
     },
     {
         name: "d!help",
