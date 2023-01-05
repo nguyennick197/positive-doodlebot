@@ -29,15 +29,14 @@ const helpFields = [
     }
 ];
 
-const tagExamples = ["cat", "bird", "ghost",
+const tagExamples = [
+    "cat", "bird", "ghost", "penguin",
     "fish", "dog", "jellyfish", "coffee",
     "food", "snail", "turtle", "elephant",
     "plant", "bee", "bunny", "pig", "fox",
     "tea", "whale", "chicken", "unicorn",
-    "robot", "shark", "dragon", "flower",
-    "cactus", "giraffe", "owl", "bear",
-    "mouse", "hedgehog", "bat", "penguin",
-    "sloth", "snake", "narwhal", "koala"]
+    "robot", "shark", "dragon"
+]
 
 module.exports = {
     helpFields,
