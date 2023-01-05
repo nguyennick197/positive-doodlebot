@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const { Client, Intents, MessageAttachment, MessageEmbed } = require('discord.js');
 const { getRandomDoodle, getCategories } = require('./utils/requests.js');
+const { helpFields, tagExamples } = requre('./utils/constants.js')
 
 const app = express();
 app.use(cors());
@@ -42,11 +43,9 @@ client.on('messageCreate', async (msg) => {
 	}
 
 	if (command === "categories") {
-		const categories = await getCategories();
-		const fields = categories.map(catObj => {
+		const fields = tagExamples.map(tag => {
 			return {
-				name: catObj.category,
-				value: "images: " + catObj.count,
+				name: tag,
 				inline: true
 			}
 		})
@@ -57,32 +56,6 @@ client.on('messageCreate', async (msg) => {
 	}
 
 	if (command == "help") {
-		const helpFields = [
-			{
-				name: "d!doodle",
-				value: "Sends a random positive doodle!"
-			},
-			{
-				name: "d!doodle [category] ie: d!doodle cat",
-				value: "Sends a positive doodle with an image from that category!"
-			},
-			{
-				name: "d!categories",
-				value: "Sends a list of valid categories with the number of images for each category!"
-			},
-			{
-				name: "d!help",
-				value: "Use this if you ever need help using this bot!"
-			},
-			{
-				name: "Who created this art?",
-				value: "All of this art is drawn by Emm Roy! You can follow them at https://www.patreon.com/emmnotemma."
-			},
-			{
-				name: "Who created this bot?",
-				value: "This bot was created by https://github.com/nguyennick197. You can find the source code at https://github.com/nguyennick197/positive-doodlebot."
-			}
-		];
 		const embed = new MessageEmbed()
 			.setTitle(":purple_heart:  Help  :purple_heart:")
 			.setDescription("Commonly used commands and questions")
