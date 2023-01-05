@@ -31,7 +31,8 @@ The Positive Doodlebot should now be a member of your server and you can use the
 ## Commands
 
  - `d!doodle`: sends a random positive doodle
- - `d!doodle {category}`: get a positive doodle from this category! ex: `d!doodle cat`
- - `d!categories`: sends a list of categories you can use 
+ - `d!doodle [tag]`: get a positive doodle from this tag! ex: `d!doodle cat`
+ - `d!tag`: sends a list of popular tags you can use 
+ - `d!search [search string]`: get a positive doodle that matches this search term (search term can be 1 or more words)! ex: `d!search school studies`
  - `d!help`: Sends a list of commands and details about the bot
 

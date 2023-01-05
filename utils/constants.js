@@ -4,12 +4,12 @@ const helpFields = [
         value: "Sends a random positive doodle!"
     },
     {
-        name: "d!doodle [category] ie: d!doodle cat",
-        value: "Sends a positive doodle with an image from that category!"
+        name: "d!doodle [tag] ie: d!doodle cat",
+        value: "Sends a positive doodle with an image from that tag!"
     },
     {
-        name: "d!categories",
-        value: "Here's a list of popular categories!"
+        name: "d!tags",
+        value: "Sends a list of popular tags!"
     },
     {
         name: "d!search [search string] ie: d!search school studies",

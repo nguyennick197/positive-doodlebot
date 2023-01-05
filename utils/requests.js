@@ -1,9 +1,9 @@
 require('dotenv').config();
 const fetch = require('node-fetch');
 
-async function getRandomDoodle(category, searchString) {
+async function getRandomDoodle(tag, searchString) {
     let url = `${process.env.API_URL}/doodles/random`;
-    if (category) url += `?category=${category}`;
+    if (tag) url += `?tag=${tag}`;
     if (searchString) url += `?search=${searchString}`;
     const response = await fetch(url);
     if (!response.ok) {
@@ -13,14 +13,6 @@ async function getRandomDoodle(category, searchString) {
     return data;
 }
 
-async function getCategories() {
-    const url = `${process.env.API_URL}/doodles/categories`;
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-}
-
 module.exports = {
     getRandomDoodle,
-    getCategories
 }

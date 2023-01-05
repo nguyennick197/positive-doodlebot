@@ -38,13 +38,13 @@ client.on('messageCreate', async (msg) => {
 
 	try {
 		if (command === "doodle") {
-			let category;
+			let tag;
 			if (args && args[0]) {
-				category = args[0]
+				tag = args[0]
 			}
-			const randomDoodle = await getRandomDoodle(category);
+			const randomDoodle = await getRandomDoodle(tag);
 			if (!randomDoodle) {
-				let errorMessage = "Sorry, there are no images for that category. Use d!categories to view all valid categories."
+				let errorMessage = "Sorry, there are no images for that tag. Use d!tags to view some popular tags."
 				msg.channel.send({ content: errorMessage })
 				return;
 			}
@@ -52,7 +52,7 @@ client.on('messageCreate', async (msg) => {
 			msg.channel.send({ files: [file] })
 		}
 
-		if (command === "categories") {
+		if (command === "tags") {
 			const fields = tagExamples.map(tag => {
 				return {
 					name: tag,
@@ -61,8 +61,8 @@ client.on('messageCreate', async (msg) => {
 				}
 			})
 			const embed = new MessageEmbed()
-				.setTitle(':dog:  Categories  :cat: ')
-				.setDescription("Here are some popular categories you can use with the !doodle command")
+				.setTitle(':dog:  Tags  :cat: ')
+				.setDescription("Here are some popular tags you can use with the !doodle command")
 				.addFields(fields);
 			msg.channel.send({ embeds: [embed] })
 		}
@@ -77,6 +77,11 @@ client.on('messageCreate', async (msg) => {
 
 		if (command == "search") {
 			let searchString = args.join(" ");
+			if (!searchString) {
+				let errorMessage = "Sorry, you must use this command with a search term. Try d!search cute"
+				msg.channel.send({ content: errorMessage })
+				return;
+			}
 			const randomDoodle = await getRandomDoodle(searchString);
 			if (!randomDoodle) {
 				let errorMessage = "Sorry, there are no images available that match your search."
