@@ -20,6 +20,15 @@ client.on('ready', () => {
 	console.log(`Ready! Logged in as ${client.user.tag}!`);
 });
 
+client.on('guildCreate', (g) => {
+    const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'))
+	const embed = new MessageEmbed()
+	.setTitle(":purple_heart:  Thanks for inviting me! :purple_heart:")
+	.setDescription("Here are some commonly used commands and questions to get you started:")
+	.addFields(helpFields);
+    channel.send({ embeds: [embed] })
+})
+
 client.on('messageCreate', async (msg) => {
 	if (msg.author.bot) return;
 	if (msg.content.indexOf(config.prefix) !== 0) return;
