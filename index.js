@@ -21,12 +21,12 @@ client.on('ready', () => {
 });
 
 client.on('guildCreate', (g) => {
-    const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'))
+    const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'));
 	const embed = new MessageEmbed()
-	.setTitle(":purple_heart:  Thanks for inviting me! :purple_heart:")
-	.setDescription("Here are some commonly used commands and questions to get you started:")
-	.addFields(helpFields);
-    channel.send({ embeds: [embed] })
+		.setTitle(":purple_heart:  Thanks for inviting me! :purple_heart:")
+		.setDescription("Here are some commonly used commands and questions to get you started:")
+		.addFields(helpFields);
+    channel.send({ embeds: [embed] });
 })
 
 client.on('messageCreate', async (msg) => {
@@ -84,7 +84,7 @@ client.on('messageCreate', async (msg) => {
 				return;
 			}
 			const file = new MessageAttachment(randomDoodle.url);
-			msg.channel.send({ files: [file] })
+			msg.channel.send({ files: [file] });
 		}
 	} catch (err) {
 		console.log(err);
@@ -94,5 +94,5 @@ client.on('messageCreate', async (msg) => {
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
-	console.log(`Server listening on port ${port}`)
+	console.log(`Server listening on port ${port}`);
 });
