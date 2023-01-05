@@ -36,3 +36,8 @@ The Positive Doodlebot should now be a member of your server and you can use the
  - `d!search [search string]`: get a positive doodle that matches this search term (search term can be 1 or more words)! ex: `d!search school studies`
  - `d!help`: Sends a list of commands and details about the bot
 
+## Screenshots
+
+<img src="readme_images/doodlebot_intro.png" alt="Location Weather" width="400"/>
+
+<img src="readme_images/doodlebot_examples.png" alt="Location Weather" width="400"/>
