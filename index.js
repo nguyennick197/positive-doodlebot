@@ -21,12 +21,12 @@ client.on('ready', () => {
 });
 
 client.on('guildCreate', (g) => {
-    const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'));
+	const channel = g.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(g.me).has('SEND_MESSAGES'));
 	const embed = new MessageEmbed()
 		.setTitle(":purple_heart:  Thanks for inviting me! :purple_heart:")
 		.setDescription("Here are some commonly used commands and questions to get you started:")
 		.addFields(helpFields);
-    channel.send({ embeds: [embed] });
+	channel.send({ embeds: [embed] });
 })
 
 client.on('messageCreate', async (msg) => {
@@ -67,7 +67,7 @@ client.on('messageCreate', async (msg) => {
 			msg.channel.send({ embeds: [embed] })
 		}
 
-		if (command == "help") {
+		if (command === "help") {
 			const embed = new MessageEmbed()
 				.setTitle(":purple_heart:  Help  :purple_heart:")
 				.setDescription("Commonly used commands and questions")
@@ -75,7 +75,7 @@ client.on('messageCreate', async (msg) => {
 			msg.channel.send({ embeds: [embed] })
 		}
 
-		if (command == "search") {
+		if (command === "search") {
 			let searchString = args.join(" ");
 			if (!searchString) {
 				let errorMessage = "Sorry, you must use this command with a search term. Try d!search cute"
@@ -90,6 +90,20 @@ client.on('messageCreate', async (msg) => {
 			}
 			const file = new MessageAttachment(randomDoodle.url);
 			msg.channel.send({ files: [file] });
+		}
+
+		if (command === "transcribe") {			
+			const lastMessage = msg.channel.messages.cache.filter(m => m.author.id === client.user.id && m.attachments.size).last();
+			if (!lastMessage) {
+				let errorMessage = "Sorry, I can't find the last image sent. Try using d!doodle before using d!text.";
+				msg.channel.send({ content: errorMessage })
+				return;
+			}
+			const discordUrl = lastMessage.attachments.first().url;
+			const parts = discordUrl.split("/");
+			const fileName = parts[parts.length - 1];
+			const doodle = await getRandomDoodle({ fileName });
+			msg.channel.send({ content: doodle.image_text });
 		}
 	} catch (err) {
 		console.log(err);

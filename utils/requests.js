@@ -3,11 +3,13 @@ const fetch = require('node-fetch');
 
 async function getRandomDoodle({
     tag,
-    searchString
+    searchString,
+    fileName
 }) {
     let url = `${process.env.API_URL}/doodles/random`;
     if (tag) url += `?tag=${tag}`;
     if (searchString) url += `?search=${searchString}`;
+    if (searchString) url += `?file_name=${fileName}`;
     const response = await fetch(url);
     if (!response.ok) {
         return null;
