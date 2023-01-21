@@ -16,6 +16,10 @@ const helpFields = [
         value: "Sends a positive doodle with text or tags that matches any word in your search string! (You can use 1 or more words)"
     },
     {
+        name: "d!transcribe",
+        value: "Sends the text from the last image sent by Positive Doodlebot in this channel!"
+    },
+    {
         name: "d!help",
         value: "Use this if you ever need help using this bot!"
     },

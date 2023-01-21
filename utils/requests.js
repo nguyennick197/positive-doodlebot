@@ -9,7 +9,7 @@ async function getRandomDoodle({
     let url = `${process.env.API_URL}/doodles/random`;
     if (tag) url += `?tag=${tag}`;
     if (searchString) url += `?search=${searchString}`;
-    if (searchString) url += `?file_name=${fileName}`;
+    if (fileName) url += `?file_name=${fileName}`;
     const response = await fetch(url);
     if (!response.ok) {
         return null;

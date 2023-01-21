@@ -1,9 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { Client, Intents, MessageAttachment, MessageEmbed } = require('discord.js');
-const { getRandomDoodle } = require('./utils/requests.js');
-const { helpFields, tagExamples } = require('./utils/constants.js');
+const { Client, Intents, MessageEmbed } = require('discord.js');
+const { helpFields } = require('./utils/constants.js');
+const { sendRandomDoodle } = require('./commands/sendRandomDoodle.js');
+const { sendTags } = require('./commands/sendTags.js');
+const { sendHelp } = require('./commands/sendHelp.js');
+const { searchDoodles } = require('./commands/searchDoodles.js');
+const { transcribeImage } = require('./commands/transcribeImage');
 
 const app = express();
 app.use(cors());
@@ -37,74 +41,11 @@ client.on('messageCreate', async (msg) => {
 	const command = args.shift().toLowerCase();
 
 	try {
-		if (command === "doodle") {
-			let tag;
-			if (args && args[0]) {
-				tag = args[0]
-			}
-			const randomDoodle = await getRandomDoodle({ tag });
-			if (!randomDoodle) {
-				let errorMessage = "Sorry, there are no images for that tag. Use d!tags to view some popular tags."
-				msg.channel.send({ content: errorMessage })
-				return;
-			}
-			const file = new MessageAttachment(randomDoodle.url);
-			msg.channel.send({ files: [file] })
-		}
-
-		if (command === "tags") {
-			const fields = tagExamples.map(tag => {
-				return {
-					name: tag,
-					value: "\u200b",
-					inline: true
-				}
-			})
-			const embed = new MessageEmbed()
-				.setTitle(':dog:  Tags  :cat: ')
-				.setDescription("Here are some popular tags you can use with the !doodle command")
-				.addFields(fields);
-			msg.channel.send({ embeds: [embed] })
-		}
-
-		if (command === "help") {
-			const embed = new MessageEmbed()
-				.setTitle(":purple_heart:  Help  :purple_heart:")
-				.setDescription("Commonly used commands and questions")
-				.addFields(helpFields);
-			msg.channel.send({ embeds: [embed] })
-		}
-
-		if (command === "search") {
-			let searchString = args.join(" ");
-			if (!searchString) {
-				let errorMessage = "Sorry, you must use this command with a search term. Try d!search cute"
-				msg.channel.send({ content: errorMessage })
-				return;
-			}
-			const randomDoodle = await getRandomDoodle({ searchString });
-			if (!randomDoodle) {
-				let errorMessage = "Sorry, there are no images available that match your search."
-				msg.channel.send({ content: errorMessage })
-				return;
-			}
-			const file = new MessageAttachment(randomDoodle.url);
-			msg.channel.send({ files: [file] });
-		}
-
-		if (command === "transcribe") {			
-			const lastMessage = msg.channel.messages.cache.filter(m => m.author.id === client.user.id && m.attachments.size).last();
-			if (!lastMessage) {
-				let errorMessage = "Sorry, I can't find the last image sent. Try using d!doodle before using d!text.";
-				msg.channel.send({ content: errorMessage })
-				return;
-			}
-			const discordUrl = lastMessage.attachments.first().url;
-			const parts = discordUrl.split("/");
-			const fileName = parts[parts.length - 1];
-			const doodle = await getRandomDoodle({ fileName });
-			msg.channel.send({ content: doodle.image_text });
-		}
+		if (command === "doodle") sendRandomDoodle(msg, args);
+		if (command === "tags") sendTags(msg);
+		if (command === "help") sendHelp(msg);
+		if (command === "search") searchDoodles(msg, args);
+		if (command === "transcribe") transcribeImage(msg, client);
 	} catch (err) {
 		console.log(err);
 	}

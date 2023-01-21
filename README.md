@@ -34,6 +34,7 @@ The Positive Doodlebot should now be a member of your server and you can use the
  - `d!doodle [tag]`: get a positive doodle from this tag! ex: `d!doodle cat`
  - `d!tag`: sends a list of popular tags you can use 
  - `d!search [search string]`: get a positive doodle that matches this search term (search term can be 1 or more words)! ex: `d!search school studies`
+ - `d!transcribe`: gives the text for the last image sent by the bot in the current channel
  - `d!help`: Sends a list of commands and details about the bot
 
 ## Screenshots
