@@ -1,7 +1,7 @@
-const { MessageEmbed } = require('discord.js');
-const { tagExamples } = require('../utils/constants.js');
+import { Message, MessageEmbed } from "discord.js";
+import { tagExamples } from "../utils/constants";
 
-function sendTags(msg) {
+export function sendTags(msg: Message) {
     const fields = tagExamples.map(tag => {
         return {
             name: tag,
@@ -14,8 +14,4 @@ function sendTags(msg) {
         .setDescription("Here are some popular tags you can use with the !doodle command")
         .addFields(fields);
     msg.channel.send({ embeds: [embed] })
-}
-
-module.exports = {
-    sendTags
 }

@@ -1,7 +1,7 @@
-const { MessageAttachment } = require('discord.js');
-const { getRandomDoodle } = require('../utils/requests.js');
+import { MessageAttachment, Message } from "discord.js";
+import { getRandomDoodle } from "../utils/requests";
 
-async function searchDoodles(msg, args) {
+export async function searchDoodles(msg: Message, args: string[]) {
     let searchString = args.join(" ");
     if (!searchString) {
         let errorMessage = "Sorry, you must use this command with a search term. Try d!search cute";
@@ -16,8 +16,4 @@ async function searchDoodles(msg, args) {
     }
     const file = new MessageAttachment(randomDoodle.url);
     msg.channel.send({ files: [file] });
-}
-
-module.exports = {
-    searchDoodles
 }

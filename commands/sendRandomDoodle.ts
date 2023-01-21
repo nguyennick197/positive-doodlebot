@@ -1,7 +1,7 @@
-const { MessageAttachment } = require('discord.js');
-const { getRandomDoodle } = require('../utils/requests.js');
+import { MessageAttachment, Message } from "discord.js";
+import { getRandomDoodle } from "../utils/requests";
 
-async function sendRandomDoodle(msg, args){
+export async function sendRandomDoodle(msg: Message, args: string[]){
     let tag;
     if (args && args[0]) {
         tag = args[0]
@@ -14,8 +14,4 @@ async function sendRandomDoodle(msg, args){
     }
     const file = new MessageAttachment(randomDoodle.url);
     msg.channel.send({ files: [file] });
-}
-
-module.exports = {
-    sendRandomDoodle
 }

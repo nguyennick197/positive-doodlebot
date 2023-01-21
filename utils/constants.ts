@@ -1,4 +1,4 @@
-const helpFields = [
+export const helpFields = [
     {
         name: "d!doodle",
         value: "Sends a random positive doodle!"
@@ -33,7 +33,7 @@ const helpFields = [
     }
 ];
 
-const tagExamples = [
+export const tagExamples = [
     "cat", "bird", "ghost", "penguin",
     "fish", "dog", "jellyfish", "coffee",
     "food", "snail", "turtle", "elephant",
@@ -41,8 +41,3 @@ const tagExamples = [
     "tea", "whale", "chicken", "unicorn",
     "robot", "shark", "dragon"
 ]
-
-module.exports = {
-    helpFields,
-    tagExamples
-}
