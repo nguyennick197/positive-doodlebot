@@ -9,7 +9,7 @@ import { sendHelp } from "./commands/sendHelp";
 import { searchDoodles } from "./commands/searchDoodles";
 import { transcribeImage } from "./commands/transcribeImage";
 
-dotenv.config()
+dotenv.config();
 const app = express();
 app.use(cors());
 
@@ -36,7 +36,7 @@ client.on('messageCreate', async (msg) => {
 	if (msg.content.indexOf(config.prefix) !== 0) return;
 
 	const args = msg!.content.slice(config.prefix.length).trim().split(/ +/g);
-	const command = args.shift()!.toLowerCase()
+	const command = args.shift()!.toLowerCase();
 
 	try {
 		if (command === "doodle") sendRandomDoodle(msg, args);
