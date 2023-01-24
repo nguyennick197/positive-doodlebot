@@ -25,7 +25,3 @@ export async function getRandomDoodle({
     const data = await response.json();
     return data;
 }
-
-module.exports = {
-    getRandomDoodle,
-}
