@@ -29,6 +29,7 @@ export async function incrementAnalytics(command: string, args: string[]) {
 export async function addDailyAnalytics(client: Client) {
     const date = new Date();
     const { message_count, commands, args } = dailyAnalytics;
+    console.log("Sending daily analytics: ", date, message_count);
     try {
         const server_count = client?.guilds?.cache?.size;
         await supabase.from("doodlebot_analytics").insert({
