@@ -8,6 +8,8 @@ import { sendTags } from "./commands/sendTags";
 import { sendHelp } from "./commands/sendHelp";
 import { searchDoodles } from "./commands/searchDoodles";
 import { transcribeImage } from "./commands/transcribeImage";
+import { sendUnknownCommand } from "./commands/sendUnknownCommand";
+import { addDailyAnalytics, incrementAnalytics } from "./utils/analytics";
 
 dotenv.config();
 const app = express();
@@ -24,6 +26,11 @@ client.login(process.env.CLIENT_TOKEN);
 client.on('ready', () => {
 	if (client && client.user) {
 		console.log(`Ready! Logged in as ${client.user.tag}!`);
+
+		// send daily analytics
+		setInterval(async () => {
+			addDailyAnalytics(client);
+		}, 86400000); // interval in milliseconds (1 day)
 	}
 });
 
@@ -40,10 +47,12 @@ client.on('messageCreate', async (msg) => {
 
 	try {
 		if (command === "doodle") sendRandomDoodle(msg, args);
-		if (command === "tags") sendTags(msg);
-		if (command === "help") sendHelp(msg);
-		if (command === "search") searchDoodles(msg, args);
-		if (command === "transcribe") transcribeImage(msg, client);
+		else if (command === "tags") sendTags(msg);
+		else if (command === "help") sendHelp(msg);
+		else if (command === "search") searchDoodles(msg, args);
+		else if (command === "transcribe") transcribeImage(msg, client);
+		else sendUnknownCommand(msg);
+		incrementAnalytics(command, args);
 	} catch (err) {
 		console.log(err);
 	}
