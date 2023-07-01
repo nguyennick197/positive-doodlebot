@@ -13,7 +13,7 @@ export async function transcribeImage(
 
   if (!lastMessage) {
     const errorMessage =
-      "Sorry, I can't find the last image sent. Try using d!doodle before using d!text.";
+      "Sorry, I can't find the last image sent. Try using /doodle before using /doodle-text.";
     await interaction.reply({ content: errorMessage });
     return;
   }
@@ -22,7 +22,7 @@ export async function transcribeImage(
 
   if (!discordUrl) {
     const errorMessage =
-      "Sorry, I can't find the last image sent. Try using d!doodle before using d!text.";
+      "Sorry, I can't find the last image sent. Try using /doodle before using /doodle-text.";
     await interaction.reply({ content: errorMessage });
     return;
   }

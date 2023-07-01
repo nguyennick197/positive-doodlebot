@@ -33,16 +33,18 @@ The Positive Doodlebot should now be a member of your server and you can use the
 ## Commands
 
 - `/doodle`: sends a random positive doodle
-- `/doodle [tag]`: get a positive doodle from this tag! ex: `d!doodle cat`
-- `/tags`: sends a list of popular tags you can use
-- `/search [search string]`: get a positive doodle that matches this search term (search term can be 1 or more words)! ex: `d!search school studies`
-- `/transcribe`: gives the text for the last image sent by the bot in the current channel
-- `/help`: Sends a list of commands and details about the bot
+- `/doodle [tag]`: get a positive doodle from this tag! ex: `/doodle cat`
+- `/doodle-tags`: sends a list of popular tags you can use
+- `/doodle-search [search string]`: get a positive doodle that matches this search term (search term can be 1 or more words)! ex: `/search school studies`
+- `/doodle-text`: gives the text for the last image sent by the bot in the current channel
+- `/doodle-help`: Sends a list of commands and details about the bot
 
 ## Screenshots
 
-<img src="readme_images/doodlebot_intro.png" alt="Doodlebot Welcome Message" width="400"/>
+<img src="readme_images/doodle-help.png" alt="Doodlebot Welcome Message" width="400"/>
 
-<img src="readme_images/doodlebot_examples.png" alt="Doodlebot doodle and search commands" width="400"/>
+<img src="readme_images/doodle-commands.png" alt="Doodlebot commands" width="400"/>
 
-<img src="readme_images/doodlebot_tags.png" alt="Doodlebot tag command" width="400"/>
+<img src="readme_images/slash-doodle-command.png" alt="Doodlebot tag command" width="400"/>
+
+<img src="readme_images/doodle-tags.png" alt="Doodlebot tag command" width="400"/>
