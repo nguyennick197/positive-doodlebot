@@ -3,18 +3,20 @@
 This is a Discord bot that sends drawings from the positivedoodles tumblr, drawn by Emm Roy. Drawings are not allowed to be used for profit. Documentation on how to use the bot is provided below.
 
 ## Emm Roy's socials
- - [Patreon](https://www.patreon.com/emmnotemma)
- - [Twitter](https://twitter.com/emmnotemma)
- - [Tumblr](https://positivedoodles.tumblr.com/)
+
+- [Patreon](https://www.patreon.com/emmnotemma)
+- [Twitter](https://twitter.com/emmnotemma)
+- [Tumblr](https://positivedoodles.tumblr.com/)
 
 ## Built With
- - [Discord.js](https://discordjs.guide/)
- - [Node](https://nodejs.org/en/)
- - [Express](https://expressjs.com/)
 
-## Contributors 
- - [Nick Nguyen](https://github.com/nguyennick197)
+- [Discord.js](https://discordjs.guide/)
+- [Node](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
 
+## Contributors
+
+- [Nick Nguyen](https://github.com/nguyennick197)
 
 ## Usage
 
@@ -30,12 +32,12 @@ The Positive Doodlebot should now be a member of your server and you can use the
 
 ## Commands
 
- - `d!doodle`: sends a random positive doodle
- - `d!doodle [tag]`: get a positive doodle from this tag! ex: `d!doodle cat`
- - `d!tags`: sends a list of popular tags you can use 
- - `d!search [search string]`: get a positive doodle that matches this search term (search term can be 1 or more words)! ex: `d!search school studies`
- - `d!transcribe`: gives the text for the last image sent by the bot in the current channel
- - `d!help`: Sends a list of commands and details about the bot
+- `/doodle`: sends a random positive doodle
+- `/doodle [tag]`: get a positive doodle from this tag! ex: `d!doodle cat`
+- `/tags`: sends a list of popular tags you can use
+- `/search [search string]`: get a positive doodle that matches this search term (search term can be 1 or more words)! ex: `d!search school studies`
+- `/transcribe`: gives the text for the last image sent by the bot in the current channel
+- `/help`: Sends a list of commands and details about the bot
 
 ## Screenshots
 

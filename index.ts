@@ -1,65 +1,140 @@
 import * as dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import { Client, Intents } from "discord.js";
-import { sendOnJoinMessage } from "./commands/sendOnJoinMessage";
+import { Client, Intents, Collection } from "discord.js";
 import { sendRandomDoodle } from "./commands/sendRandomDoodle";
 import { sendTags } from "./commands/sendTags";
 import { sendHelp } from "./commands/sendHelp";
 import { searchDoodles } from "./commands/searchDoodles";
+import { sendOnJoinMessage } from "./commands/sendOnJoinMessage";
+import { addDailyAnalytics } from "./utils/analytics";
 import { transcribeImage } from "./commands/transcribeImage";
-import { sendUnknownCommand } from "./commands/sendUnknownCommand";
-import { addDailyAnalytics, incrementAnalytics } from "./utils/analytics";
 
 dotenv.config();
 const app = express();
 app.use(cors());
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-
-const config = {
-	prefix: "d!"
-}
-
-client.login(process.env.CLIENT_TOKEN);
-
-client.on('ready', () => {
-	if (client && client.user) {
-		console.log(`Ready! Logged in as ${client.user.tag}!`);
-
-		// send daily analytics
-		setInterval(async () => {
-			addDailyAnalytics(client);
-		}, 86400000); // interval in milliseconds (1 day)
-	}
+const client = new Client({
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
-client.on('guildCreate', (guild) => {
-	sendOnJoinMessage(guild);
-})
+const commands = [
+  {
+    name: "doodle",
+    description: "Send a random doodle",
+    options: [
+      {
+        name: "tag",
+        description: "Doodle tag",
+        type: "STRING",
+        required: false,
+      },
+    ],
+  },
+  {
+    name: "tags",
+    description: "Send commonly used tags",
+  },
+  {
+    name: "help",
+    description: "Get help about how to use the doodle bot",
+  },
+  {
+    name: "search",
+    description: "Search for a doodle",
+    options: [
+      {
+        name: "query",
+        description: "Search query",
+        type: "STRING",
+        required: true,
+      },
+    ],
+  },
+  {
+    name: "transcribe",
+    description: "Get the text for the last image sent",
+  },
+];
 
-client.on('messageCreate', async (msg) => {
-	if (msg.author.bot) return;
-	if (msg.content.indexOf(config.prefix) !== 0) return;
+const main = () => {
+  try {
+    client.login(process.env.CLIENT_TOKEN);
 
-	const args = msg!.content.slice(config.prefix.length).trim().split(/ +/g);
-	const command = args.shift()!.toLowerCase();
+    client.once("ready", async () => {
+      if (client && client.user) {
+        console.log(`Ready! Logged in as ${client.user.tag}!`);
 
-	try {
-		if (command === "doodle") sendRandomDoodle(msg, args);
-		else if (command === "tags") sendTags(msg);
-		else if (command === "help") sendHelp(msg);
-		else if (command === "search") searchDoodles(msg, args);
-		else if (command === "transcribe") transcribeImage(msg, client);
-		else sendUnknownCommand(msg);
-		incrementAnalytics(command, args);
-	} catch (err) {
-		console.log(err);
-	}
-});
+        try {
+          const commandsManager = new Collection();
+          const registeredCommandNames = new Set();
 
-const port = process.env.PORT || 8000;
+          // Create slash commands globally
+          for (const command of commands) {
+            const { name } = command;
+            if (registeredCommandNames.has(name)) {
+              console.warn(`Duplicate command: ${name}`);
+              continue;
+            }
+            registeredCommandNames.add(name);
 
-app.listen(port, () => {
-	console.log(`Server listening on port ${port}`);
-});
+            const slashCommand = await client.application?.commands.create(
+              command as any
+            );
+            commandsManager.set(slashCommand?.id, command);
+          }
+
+          // Remove existing global slash commands not in the commands array
+          const existingCommands = await client.application?.commands.fetch();
+          for (const existingCommand of existingCommands?.values() || []) {
+            if (!commandsManager.has(existingCommand.id)) {
+              await existingCommand.delete();
+            }
+          }
+
+          console.log("Slash commands registered successfully!");
+        } catch (error) {
+          console.error("Failed to register slash commands:", error);
+        }
+        // send daily analytics
+        setInterval(async () => {
+          addDailyAnalytics(client);
+        }, 86400000); // interval in milliseconds (1 day)
+      }
+    });
+
+    client.on("guildCreate", (guild) => {
+      sendOnJoinMessage(guild);
+    });
+
+    client.on("interactionCreate", async (interaction) => {
+      if (!interaction.isCommand()) return;
+
+      const { commandName, options } = interaction;
+
+      if (commandName === "doodle") {
+        const query = options.getString("query");
+        await sendRandomDoodle(interaction, query);
+      } else if (commandName === "tags") {
+        await sendTags(interaction);
+      } else if (commandName === "help") {
+        await sendHelp(interaction);
+      } else if (commandName === "search") {
+        const query = options.getString("query");
+        await searchDoodles(interaction, query);
+      } else if (commandName === "transcribe") {
+        await transcribeImage(interaction, client);
+      }
+    });
+
+    const port = process.env.PORT || 8000;
+
+    app.listen(port, () => {
+      console.log(`Server listening on port ${port}`);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+main();
