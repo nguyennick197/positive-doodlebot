@@ -8,21 +8,21 @@ export const helpFields = [
     value: "Sends a positive doodle with an image from that tag!",
   },
   {
-    name: "/tags",
+    name: "/doodle-tags",
     value: "Sends a list of popular tags!",
   },
   {
-    name: "/search [search string] ie: d!search school studies",
+    name: "/doodle-search [search string] ie: d!search school studies",
     value:
       "Sends a positive doodle with text or tags that matches any word in your search string! (You can use 1 or more words)",
   },
   {
-    name: "/transcribe",
+    name: "/doodle-text",
     value:
       "Sends the text from the last image sent by Positive Doodlebot in this channel!",
   },
   {
-    name: "/help",
+    name: "/doodle-help",
     value: "Use this if you ever need help using this bot!",
   },
   {

@@ -9,6 +9,7 @@ import { searchDoodles } from "./commands/searchDoodles";
 import { sendOnJoinMessage } from "./commands/sendOnJoinMessage";
 import { addDailyAnalytics } from "./utils/analytics";
 import { transcribeImage } from "./commands/transcribeImage";
+import { incrementAnalytics } from "./utils/analytics";
 
 dotenv.config();
 const app = express();
@@ -32,15 +33,15 @@ const commands = [
     ],
   },
   {
-    name: "tags",
+    name: "doodle-tags",
     description: "Send commonly used tags",
   },
   {
-    name: "help",
+    name: "doodle-help",
     description: "Get help about how to use the doodle bot",
   },
   {
-    name: "search",
+    name: "doodle-search",
     description: "Search for a doodle",
     options: [
       {
@@ -52,7 +53,7 @@ const commands = [
     ],
   },
   {
-    name: "transcribe",
+    name: "doodle-text",
     description: "Get the text for the last image sent",
   },
 ];
@@ -64,31 +65,35 @@ const main = () => {
     client.once("ready", async () => {
       if (client && client.user) {
         console.log(`Ready! Logged in as ${client.user.tag}!`);
-
         try {
           const commandsManager = new Collection();
           const registeredCommandNames = new Set();
 
-          // Create slash commands globally
-          for (const command of commands) {
-            const { name } = command;
-            if (registeredCommandNames.has(name)) {
-              console.warn(`Duplicate command: ${name}`);
-              continue;
-            }
-            registeredCommandNames.add(name);
+          // Register slash commands per guild
+          for (const guild of client.guilds.cache.values()) {
+            const guildCommands = await guild.commands.fetch();
 
-            const slashCommand = await client.application?.commands.create(
-              command as any
-            );
-            commandsManager.set(slashCommand?.id, command);
-          }
+            for (const command of commands) {
+              const { name } = command;
 
-          // Remove existing global slash commands not in the commands array
-          const existingCommands = await client.application?.commands.fetch();
-          for (const existingCommand of existingCommands?.values() || []) {
-            if (!commandsManager.has(existingCommand.id)) {
-              await existingCommand.delete();
+              if (registeredCommandNames.has(name)) {
+                console.warn(`Duplicate command: ${name}`);
+                continue;
+              }
+              registeredCommandNames.add(name);
+
+              const existingCommand = guildCommands.find(
+                (c) => c.name === name
+              );
+
+              if (existingCommand) {
+                commandsManager.set(existingCommand.id, command);
+              } else {
+                const slashCommand = await guild.commands.create(
+                  command as any
+                );
+                commandsManager.set(slashCommand.id, command);
+              }
             }
           }
 
@@ -96,6 +101,7 @@ const main = () => {
         } catch (error) {
           console.error("Failed to register slash commands:", error);
         }
+
         // send daily analytics
         setInterval(async () => {
           addDailyAnalytics(client);
@@ -103,8 +109,35 @@ const main = () => {
       }
     });
 
-    client.on("guildCreate", (guild) => {
-      sendOnJoinMessage(guild);
+    client.on("guildCreate", async (guild) => {
+      try {
+        sendOnJoinMessage(guild);
+
+        const commandsManager = new Collection();
+        const registeredCommandNames = new Set();
+
+        for (const command of commands) {
+          const { name } = command;
+
+          if (registeredCommandNames.has(name)) {
+            console.warn(`Duplicate command: ${name}`);
+            continue;
+          }
+          registeredCommandNames.add(name);
+
+          const slashCommand = await guild.commands.create(command as any);
+          commandsManager.set(slashCommand.id, command);
+        }
+
+        console.log(
+          `Slash commands registered successfully for guild: ${guild.name}`
+        );
+      } catch (error) {
+        console.error(
+          `Failed to register slash commands for guild: ${guild.name}`,
+          error
+        );
+      }
     });
 
     client.on("interactionCreate", async (interaction) => {
@@ -113,18 +146,19 @@ const main = () => {
       const { commandName, options } = interaction;
 
       if (commandName === "doodle") {
-        const query = options.getString("query");
+        const query = options.getString("tag");
         await sendRandomDoodle(interaction, query);
-      } else if (commandName === "tags") {
+      } else if (commandName === "doodle-tags") {
         await sendTags(interaction);
-      } else if (commandName === "help") {
+      } else if (commandName === "doodle-help") {
         await sendHelp(interaction);
-      } else if (commandName === "search") {
+      } else if (commandName === "doodle-search") {
         const query = options.getString("query");
         await searchDoodles(interaction, query);
-      } else if (commandName === "transcribe") {
+      } else if (commandName === "doodle-text") {
         await transcribeImage(interaction, client);
       }
+      incrementAnalytics(interaction);
     });
 
     const port = process.env.PORT || 8000;
