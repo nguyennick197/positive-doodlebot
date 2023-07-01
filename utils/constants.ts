@@ -4,7 +4,7 @@ export const helpFields = [
     value: "Sends a random positive doodle!",
   },
   {
-    name: "/doodle [tag] ie: d!doodle cat",
+    name: "/doodle [tag] ie: /doodle cat",
     value: "Sends a positive doodle with an image from that tag!",
   },
   {
@@ -12,7 +12,7 @@ export const helpFields = [
     value: "Sends a list of popular tags!",
   },
   {
-    name: "/doodle-search [search string] ie: d!search school studies",
+    name: "/doodle-search [search string] ie: /doodle-search school studies",
     value:
       "Sends a positive doodle with text or tags that matches any word in your search string! (You can use 1 or more words)",
   },
